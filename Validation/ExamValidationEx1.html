@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>HTML and Javascript</title>
+    <script src="Common.js"></script>  
+        <style>
+        
+        body{
+            font-size: 16px;
+            background-color: rgb(215, 250, 248);
+            font-family: -apple-system, BlinkMacSystemFont, 'Seg oe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        h1{
+          text-align: center;
+          text-decoration: underline;  
+        }
+
+        form{
+            width : 350px;
+            padding : 15px;
+            border : 2px solid pink;
+            margin: 50px auto 0;
+            border-radius: 5px;  
+        }
+
+        label{
+            display:block;
+            margin-bottom: 5px;
+        }
+
+        input, select{
+            border:1px solid lightblue;
+            padding:10px;
+            display:block;
+            width:95%;
+            border-radius: 2px;
+        }
+        input.inline{
+            display:inline-block;
+            width: auto;
+            padding-right: 15px;
+        }
+        .row{
+            padding-bottom: 15px;
+        }
+        .err{
+            font-size:0.8em;
+            color :indianred;
+        }
+        button{
+            display:block;
+            width:95%;
+            height: 50px;
+            border-color:yellow;
+            background-color:lightskyblue;
+            margin-top: 15px;
+            box-shadow: 0 3px 4px blue;
+        }
+        .h{
+            display:block;
+            width:95%;
+            height: 50px;
+            border-color:yellow;
+            background-color:lightskyblue;
+            margin-top: 15px;
+            box-shadow: 0 3px 4px blue;
+        }
+        .b{
+            display:block;
+            width:25%;
+            height: 50px;
+            margin:auto;
+            display:block ;
+            border-color:rgb(255, 0, 43);
+            background-color:lightskyblue;
+            margin-top: 15px;
+            box-shadow: 0 3px 4px blue;
+            
+        }
+        
+    </style>
+    <script>
+        function showErr(ele, msg){
+            $get(ele).innerText = msg;
+        }
+        function validate(){
+            //Name validation    
+            let firstname = document.regForm.firstname.value;
+            let lastname = document.regForm.lastname.value;
+            let email = document.regForm.email.value;
+            let mobile = document.regForm.phone.value;
+            let amount = document.regForm.amount.value;
+
+            if(firstname == "" || firstname == null)
+            {
+                showErr("errFname", "Firstname is mandatory")
+                return false;
+            }else
+            {
+                showErr("errFname", "")
+            }
+            if(lastname == "" || lastname == null)
+            {
+                showErr("errLname", "lastname is mandatory")
+                return false;
+            }else
+            {
+                showErr("errLname", "")
+            }
+            //email validation    
+            if(email == ""){
+                showErr("errEmail", "Email is mandatory")
+                return false;
+            }else
+            {
+                showErr("errEmail", "")
+            }
+            let regEx = new RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
+            if(regEx.test(email) == false)
+            {
+                showErr("errEmail", "Email is not in a valid format")
+                return false;
+            } else 
+            {
+                showErr("errEmail", "")
+            }
+            //phone no validation
+            regEx = new RegExp("^[0-9]{10}$");
+            if(mobile == "" || (!regEx.test(mobile)))
+            {
+               showErr("errPhone", "phone is not in a valid format")
+                return false;
+            }
+            else 
+            {
+                showErr("errPhone", "")
+            }
+            regEx = new RegExp("^[0-9]+$");
+            if(amount == "" || (!regEx.test(amount)))
+            {
+               showErr("errAmount", "amount is not in a valid format")
+                return false;
+            }
+            else 
+            {
+                showErr("errAmount", "")
+            }
+            return true;
+        }
+        function display(){
+            validate();
+            document.getElementById("display").innerHTML="";
+            
+            let firstname = document.regForm.firstname.value;
+            let lastname = document.regForm.lastname.value;
+            let email = document.regForm.email.value;
+            let mobile = document.regForm.phone.value;
+            let billingdate = document.regForm.billingdate.value;
+            let amount = document.regForm.amount.value;
+            document.getElementById("display").innerHTML += "NAME:" +firstname;
+            document.getElementById("display").innerHTML += "&nbsp" +lastname+"<br>";
+            document.getElementById("display").innerHTML += "EMAIL-ID:"+email+"<br>";
+            document.getElementById("display").innerHTML += "MOBILE NO:"+mobile+"<br>";
+            document.getElementById("display").innerHTML += "BILLING DATE:"+billingdate+"<br>";
+            document.getElementById("display").innerHTML += "BILLING AMOUNT:"+amount+"<br>";
+        }    
+    </script>
+</head>
+<body>
+    <form action="" name="regForm" novalidate="true" onsubmit="return validate()">
+        <h1>User Customer Registration</h1>
+        <div class="row">
+            <label for="firstname">First Name</label>
+            <input type="text" name="firstname" id="firstname"/>
+            <div id="errFname" class="err"></div>
+        </div>
+        <div class="row">
+            <label for="lastname">Last Name</label>
+            <input type="text" name="lastname" id="lastname"/>
+            <div id="errLname" class="err"></div>
+        </div>
+        <div class="row">
+            <label for="email">Email Address</label>
+            <input type="email" name="email" id="email" />
+            <div id="errEmail" class="err"></div>
+        </div>
+        <div class="row">
+            <label for="phone">Mobile phone</label>
+            <input type="text" id="phone" name="phone" />
+            <div id="errPhone" class="err"></div>
+        </div>
+        
+        <div class="row">
+            <label>Billing Date</label>
+            <input class="inline" type="date" name="billingdate" id="billingdate" />
+        </div>
+
+        <div class="row">
+            <label>Billing Amount</label>
+            <input class="inline" type="text" name="amount" id="amount" />
+            <div id="errAmount" class="err"></div>
+        </div>   
+
+        </form> 
+        <input type="button" class="b" onclick="display()" value="submit"/> 
+        <div id="display">Custumer Details Provided</div>
+     </body>
+</html>
